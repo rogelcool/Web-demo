@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="metaTitle">Clínica Dental — Sonrisas de Confianza</title>
+<meta name="description" id="metaDescription" content="Clínica dental en Panamá. Diagnóstico claro, sin sorpresas. Agenda tu cita por WhatsApp.">
+
+<!-- Open Graph / vista previa al compartir el link por WhatsApp -->
+<meta property="og:type" content="website">
+<meta property="og:title" id="ogTitle" content="Clínica Dental — Sonrisas de Confianza">
+<meta property="og:description" id="ogDescription" content="Diagnóstico claro, sin sorpresas. Agenda tu cita por WhatsApp.">
+<meta name="theme-color" content="#0F3D3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ==========================================================================
+   DESIGN TOKENS
+   ========================================================================== */
+:root{
+  --color-primary: #0F3D3E;
+  --color-primary-light: #1B5C5D;
+  --color-accent: #C9A66B;        /* uso decorativo / sobre fondos oscuros */
+  --color-accent-ink: #8A6A34;    /* uso en texto sobre fondos claros (contraste AA) */
+  --color-bg: #FBF8F3;
+  --color-bg-alt: #F1ECE2;
+  --color-text: #1C2624;
+  --color-text-soft: #54615D;
+  --color-whatsapp: #25D366;
+  --color-whatsapp-dark: #1DA851;
+
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Inter', sans-serif;
+
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow-soft: 0 8px 30px rgba(15,61,62,0.08);
+  --shadow-lift: 0 16px 40px rgba(15,61,62,0.14);
+  --container-w: 1180px;
+
+  /* Escala de espaciado — usar SIEMPRE estas variables, nunca px sueltos */
+  --space-xs: 12px;
+  --space-sm: 20px;
+  --space-md: 32px;
+  --space-lg: clamp(40px, 5vw, 64px);
+  --section-pad: clamp(64px, 9vw, 104px);
+}
+
+*{ box-sizing: border-box; margin:0; padding:0; }
+html{ scroll-behavior: smooth; }
+body{
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+ul{ list-style:none; }
+button{ font-family: inherit; cursor:pointer; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:0.01ms !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+}
+
+:focus-visible{ outline: 2px solid var(--color-accent-ink); outline-offset: 3px; }
+
+.skip-link{
+  position:absolute; left:-9999px; top:0; z-index:1000;
+  background: var(--color-primary); color:#fff; padding: 12px 20px; border-radius: 0 0 8px 0;
+}
+.skip-link:focus{ left:0; }
+
+.container{ max-width: var(--container-w); margin: 0 auto; padding: 0 24px; }
+
+.eyebrow{
+  font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--color-accent-ink); font-weight: 700; margin-bottom: 10px;
+}
+.eyebrow.center{ text-align:center; }
+
+.section-title{
+  font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem); line-height: 1.2;
+  color: var(--color-primary); margin-bottom: 16px;
+}
+.section-title.center{ text-align:center; max-width: 640px; margin-left:auto; margin-right:auto; }
+
+/* ---------------- Scroll reveal (un solo efecto, consistente, no decorativo de más) ---------------- */
+.reveal{ opacity:0; transform: translateY(18px) scale(0.98); transition: opacity .6s ease, transform .6s ease; }
+.reveal.is-visible{ opacity:1; transform:none; }
+.steps__grid .step:nth-child(1){ transition-delay: 0ms; }
+.steps__grid .step:nth-child(2){ transition-delay: 90ms; }
+.steps__grid .step:nth-child(3){ transition-delay: 180ms; }
+
+/* ---------------- BUTTONS ---------------- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  font-weight:600; font-size:0.95rem; padding: 14px 26px; border-radius: 999px; border: none;
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  white-space: nowrap;
+}
+.btn--whatsapp{ background: var(--color-whatsapp); color:#fff; box-shadow: var(--shadow-soft); }
+.btn--whatsapp:hover{ background: var(--color-whatsapp-dark); transform: translateY(-2px); box-shadow: var(--shadow-lift); }
+.btn--ghost{ background: transparent; color: var(--color-primary); border: 1.5px solid var(--color-primary); }
+.btn--ghost:hover{ background: var(--color-primary); color:#fff; }
+.btn--small{ padding: 9px 16px; font-size:0.85rem; }
+.btn--large{ padding: 16px 30px; font-size: 1rem; }
+.btn--full{ width:100%; }
+.icon-wa{ width:20px; height:20px; flex-shrink:0; }
+.icon-line{ width:26px; height:26px; stroke: var(--color-primary); fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+
+/* ---------------- HEADER ---------------- */
+.header{
+  position: sticky; top:0; z-index:100;
+  background: rgba(251,248,243,0.9); backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(15,61,62,0.08);
+}
+.header__inner{ display:flex; align-items:center; justify-content:space-between; padding: 14px 24px; gap: 20px; }
+.header__logo{ display:flex; align-items:center; gap:10px; font-family: var(--font-display); font-weight:600; font-size:1.15rem; color: var(--color-primary); }
+.header__logo-img{ height: 32px; width:auto; }
+.header__nav{ display:flex; gap: 28px; font-weight:500; font-size:0.92rem; }
+.header__nav a:hover{ color: var(--color-primary); }
+.header__burger{ display:none; flex-direction:column; gap:5px; background:none; border:none; }
+.header__burger span{ width:22px; height:2px; background: var(--color-primary); }
+
+/* ---------------- HERO ---------------- */
+.hero{ padding: var(--section-pad) 0 var(--space-lg); overflow:hidden; }
+@keyframes hero-in{ from{ opacity:0; transform: translateY(14px); } to{ opacity:1; transform:none; } }
+.hero__content{ animation: hero-in .7s ease both; }
+.hero__media{ animation: hero-in .7s ease .15s both; }
+@media (prefers-reduced-motion: reduce){ .hero__content, .hero__media{ animation:none; } }
+.hero__inner{ display:grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items:center; }
+.hero__title{
+  font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(2.2rem, 4.4vw, 3.5rem); line-height: 1.12;
+  color: var(--color-primary); margin-bottom: 20px;
+}
+.hero__subtitle{ font-size: 1.08rem; color: var(--color-text-soft); max-width: 460px; margin-bottom: 30px; }
+.hero__actions{ display:flex; gap:16px; flex-wrap:wrap; margin-bottom: 14px; }
+.hero__microcopy{ font-size: 0.85rem; color: var(--color-text-soft); }
+
+/* Signature element: mockup de conversación de WhatsApp — reemplaza la foto de stock */
+.hero__media{ position:relative; display:flex; justify-content:center; }
+.hero__blob{
+  position:absolute; inset: -10% -10% -10% 0;
+  background: radial-gradient(circle at 30% 30%, rgba(201,166,107,0.35), transparent 60%),
+              radial-gradient(circle at 70% 70%, rgba(15,61,62,0.18), transparent 60%);
+  filter: blur(20px); z-index:0;
+}
+.wa-mock{
+  position:relative; z-index:1; width:100%; max-width: 360px;
+  background:#fff; border-radius: var(--radius); box-shadow: var(--shadow-lift);
+  overflow:hidden; border: 1px solid rgba(15,61,62,0.06);
+}
+.wa-mock__head{ display:flex; align-items:center; gap:12px; background: var(--color-primary); color:#fff; padding: 14px 18px; }
+.wa-mock__avatar{
+  width:36px; height:36px; border-radius:50%; background: var(--color-accent); color: var(--color-primary);
+  display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.8rem; flex-shrink:0;
+}
+.wa-mock__head strong{ display:block; font-size:0.92rem; }
+.wa-mock__head small{ opacity:0.75; font-size:0.72rem; }
+.wa-mock__body{ padding: 18px; display:flex; flex-direction:column; gap:10px; background: #ECE5DD; }
+.wa-mock__bubble{ max-width: 82%; padding: 9px 13px; border-radius: 12px; font-size:0.86rem; line-height:1.4; box-shadow: 0 1px 1px rgba(0,0,0,0.08); }
+.wa-mock__bubble--in{ background:#fff; align-self:flex-start; border-bottom-left-radius:2px; }
+.wa-mock__bubble--out{ background:#DCF8C6; align-self:flex-end; border-bottom-right-radius:2px; }
+
+/* Divisor "arco de sonrisa" */
+.smile-divider{ line-height:0; margin-top:-2px; }
+.smile-divider svg{ width:100%; height:60px; display:block; }
+.smile-divider path{ fill: var(--color-bg-alt); }
+
+/* ---------------- TRUST STRIP ---------------- */
+.trust-strip{ background: var(--color-bg-alt); padding: var(--space-md) 0; }
+.trust-strip__inner{ display:grid; grid-template-columns: repeat(4,1fr); gap: var(--space-md); }
+.trust-item-strip{ display:flex; align-items:center; gap:10px; font-size:0.88rem; font-weight:600; color: var(--color-primary); }
+.trust-item-strip svg{ width:22px; height:22px; stroke: var(--color-accent-ink); fill:none; stroke-width:1.7; flex-shrink:0; }
+
+/* ---------------- DOCTOR ---------------- */
+.doctor{ background: var(--color-bg-alt); padding: var(--section-pad) 0; }
+.doctor__inner{ display:grid; grid-template-columns: 0.7fr 1.3fr; gap: 56px; align-items:center; }
+.doctor__avatar{
+  aspect-ratio: 1/1; border-radius: var(--radius); box-shadow: var(--shadow-soft);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  display:flex; align-items:center; justify-content:center;
+}
+.doctor__avatar span{ font-family: var(--font-display); font-size: clamp(2.4rem, 6vw, 3.6rem); color: var(--color-accent); font-weight:600; }
+.doctor__content h2{ font-family: var(--font-display); font-size: clamp(1.6rem, 2.8vw, 2.2rem); color: var(--color-primary); margin-bottom: 6px; }
+.doctor__role{ color: var(--color-accent-ink); font-weight:600; font-size:0.9rem; margin-bottom: 16px; }
+.doctor__bio{ color: var(--color-text-soft); max-width: 520px; }
+
+/* ---------------- SERVICES ---------------- */
+.services{ padding: var(--section-pad) 0; }
+.services__grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 44px; }
+.service-card{ background:#fff; border-radius: var(--radius); padding: 30px 26px; box-shadow: var(--shadow-soft); transition: transform .2s ease, box-shadow .2s ease; border: 1px solid rgba(15,61,62,0.06); }
+.service-card:hover{ transform: translateY(-4px); box-shadow: var(--shadow-lift); }
+.service-card__icon{
+  width:48px; height:48px; border-radius:50%; background: var(--color-bg-alt);
+  display:flex; align-items:center; justify-content:center; margin-bottom: 16px;
+}
+.service-card h3{ font-family: var(--font-display); font-size: 1.15rem; color: var(--color-primary); margin-bottom: 8px; }
+.service-card p{ color: var(--color-text-soft); font-size: 0.92rem; }
+
+/* ---------------- TESTIMONIALS ---------------- */
+.testimonials{ background: var(--color-primary); padding: var(--section-pad) 0; }
+.testimonials .eyebrow{ color: var(--color-accent); }
+.testimonials .section-title{ color:#fff; }
+.testimonials__grid{ display:grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 44px; }
+.testimonial-card{ background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius); padding: 28px; color:#fff; }
+.testimonial-card__stars{ color: var(--color-accent); margin-bottom: 12px; font-size:0.95rem; letter-spacing:2px; }
+.testimonial-card p{ font-size:0.94rem; color: rgba(255,255,255,0.85); margin-bottom:16px; }
+.testimonial-card strong{ font-family: var(--font-display); font-size:0.95rem; }
+
+/* ---------------- MID CTA (refuerzo tras el momento de mayor confianza) ---------------- */
+.mid-cta{ padding: var(--space-lg) 0; background: var(--color-bg-alt); }
+.mid-cta__inner{ display:flex; align-items:center; justify-content:space-between; gap: var(--space-md); flex-wrap:wrap; }
+.mid-cta h3{ font-family: var(--font-display); font-size: 1.3rem; color: var(--color-primary); max-width: 480px; }
+
+/* ---------------- STEPS ---------------- */
+.steps{ padding: var(--section-pad) 0; }
+.steps__grid{ display:grid; grid-template-columns: repeat(3,1fr); gap: 30px; margin-top: 44px; }
+.step{ text-align:center; padding: 20px; }
+.step__num{ font-family: var(--font-display); font-size: 2.4rem; font-weight:600; color: var(--color-accent-ink); display:block; margin-bottom: 10px; }
+.step h3{ color: var(--color-primary); margin-bottom: 8px; font-size:1.1rem; }
+.step p{ color: var(--color-text-soft); font-size:0.92rem; max-width:260px; margin:0 auto; }
+
+/* ---------------- FAQ ---------------- */
+.faq{ padding: var(--section-pad) 0; background: var(--color-bg-alt); }
+.faq__list{ max-width: 720px; margin: 44px auto 0; display:flex; flex-direction:column; gap: 12px; }
+.faq-item{ background:#fff; border:1px solid rgba(15,61,62,0.1); border-radius: var(--radius-sm); overflow:hidden; }
+.faq-item__q{ width:100%; text-align:left; background:none; border:none; padding: 18px 22px; display:flex; justify-content:space-between; align-items:center; font-weight:600; color: var(--color-primary); font-size:0.98rem; }
+.faq-item__q::after{ content:"+"; font-size:1.3rem; color: var(--color-accent-ink); transition: transform .2s ease; }
+.faq-item.is-open .faq-item__q::after{ transform: rotate(45deg); }
+.faq-item__a{ max-height:0; overflow:hidden; transition: max-height .25s ease; padding: 0 22px; color: var(--color-text-soft); font-size:0.92rem; }
+.faq-item.is-open .faq-item__a{ padding-bottom: 18px; }
+
+/* ---------------- CONTACT ---------------- */
+.contact{ padding: var(--section-pad) 0; }
+.contact__inner{ display:grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+.hours-list{ margin: 20px 0 22px; display:flex; flex-direction:column; gap:8px; }
+.hours-list li{ display:flex; justify-content:space-between; max-width:340px; font-size:0.94rem; border-bottom: 1px dashed rgba(15,61,62,0.15); padding-bottom:6px; }
+.hours-list li span:first-child{ color: var(--color-text-soft); }
+.hours-list li span:last-child{ font-weight:600; color: var(--color-primary); }
+.contact__data{ margin-bottom: 22px; font-size:0.95rem; }
+.contact__data p{ margin-bottom:6px; }
+.contact__data a{ color: var(--color-primary); font-weight:600; }
+.map-wrapper{ border-radius: var(--radius); overflow:hidden; box-shadow: var(--shadow-soft); }
+.contact__form-wrapper{ background:#fff; border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow-soft); height:fit-content; }
+.contact__form-wrapper h3{ font-family: var(--font-display); color: var(--color-primary); margin-bottom: 20px; font-size:1.2rem; }
+.field{ margin-bottom: 16px; }
+.field label{ display:block; font-size:0.85rem; font-weight:600; color: var(--color-text-soft); margin-bottom:6px; }
+.field input, .field textarea{
+  width:100%; padding: 12px 14px; border-radius: var(--radius-sm);
+  border: 1.5px solid rgba(15,61,62,0.15); font-family: inherit; font-size:0.94rem; background: var(--color-bg);
+}
+.field input:focus, .field textarea:focus{ border-color: var(--color-primary); outline:none; }
+.form-note{ text-align:center; font-size:0.78rem; color: var(--color-text-soft); margin-top:10px; }
+
+/* ---------------- FOOTER ---------------- */
+.footer{ background: var(--color-primary); color:#fff; padding-top: 56px; }
+.footer__inner{ display:flex; flex-wrap:wrap; justify-content:space-between; gap: 30px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.15); }
+.footer__brand span{ font-family: var(--font-display); font-size:1.3rem; font-weight:600; }
+.footer__brand p{ color: rgba(255,255,255,0.7); font-size:0.9rem; margin-top:6px; }
+.footer__links{ display:flex; gap:20px; flex-wrap:wrap; align-self:center; }
+.footer__links a{ color: rgba(255,255,255,0.85); font-size:0.9rem; }
+.footer__links a:hover{ color: var(--color-accent); }
+.footer__bottom{ text-align:center; padding: 18px 0; font-size:0.8rem; color: rgba(255,255,255,0.6); }
+
+/* ---------------- FLOATING WHATSAPP ---------------- */
+.floating-wa{
+  position: fixed; bottom: 22px; right: 22px; z-index: 200;
+  width: 58px; height:58px; border-radius:50%;
+  background: var(--color-whatsapp); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: 0 6px 20px rgba(37,211,102,0.45);
+  animation: wa-pulse 2.4s infinite;
+}
+.floating-wa svg{ width: 30px; height:30px; }
+@keyframes wa-pulse{
+  0%{ box-shadow: 0 0 0 0 rgba(37,211,102,0.5); }
+  70%{ box-shadow: 0 0 0 14px rgba(37,211,102,0); }
+  100%{ box-shadow: 0 0 0 0 rgba(37,211,102,0); }
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 900px){
+  .hero__inner, .doctor__inner, .contact__inner{ grid-template-columns: 1fr; }
+  .doctor__media{ order:-1; max-width: 260px; margin: 0 auto; }
+  .services__grid, .steps__grid, .testimonials__grid{ grid-template-columns: repeat(2,1fr); }
+  .trust-strip__inner{ grid-template-columns: repeat(2,1fr); }
+}
+
+@media (max-width: 640px){
+  .header__nav{ display:none; }
+  .header__burger{ display:flex; }
+  .header__inner{ flex-wrap:wrap; }
+  .hero{ padding: 40px 0 24px; }
+  .hero__actions{ flex-direction:column; }
+  .hero__actions .btn{ width:100%; }
+  .services__grid, .steps__grid, .testimonials__grid{ grid-template-columns: 1fr; }
+  .trust-strip__inner{ grid-template-columns: 1fr 1fr; }
+  .section-title{ font-size: 1.6rem; }
+  .floating-wa{ width:52px; height:52px; bottom:16px; right:16px; }
+  .mid-cta__inner{ flex-direction:column; text-align:center; }
+}
+
+</style>
+</head>
+<body>
+
+<a href="#inicio" class="skip-link">Saltar al contenido</a>
+
+<!-- ============ HEADER ============ -->
+<header class="header" id="header">
+  <div class="container header__inner">
+    <a href="#inicio" class="header__logo">
+      <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE2IDRjLTMgMC00LjUgMS42LTYuNSAxLjZDNyA1LjYgNSA3LjQgNSAxMC44YzAgMyAxLjMgNS42IDEuOCA4LjQuNSAyLjggMSA4LjggMy4yIDguOCAyIDAgMi01IDIuNy03LjYuNC0xLjYgMS4yLTIuNiAzLjMtMi42czIuOSAxIDMuMyAyLjZjLjcgMi42LjcgNy42IDIuNyA3LjYgMi4yIDAgMi43LTYgMy4yLTguOC41LTIuOCAxLjgtNS40IDEuOC04LjQgMC0zLjQtMi01LjItNC41LTUuMkMyMC41IDUuNiAxOSA0IDE2IDR6IiBmaWxsPSIjQzlBNjZCIi8+Cjwvc3ZnPgo=" alt="" class="header__logo-img" id="logoImg">
+      <span id="clinicNameHeader">Clínica Dental</span>
+    </a>
+    <nav class="header__nav" id="headerNav">
+      <a href="#servicios">Tratamientos</a>
+      <a href="#testimonios">Pacientes</a>
+      <a href="#preguntas">Preguntas</a>
+      <a href="#contacto">Ubicación</a>
+    </nav>
+    <a href="#" class="btn btn--whatsapp btn--small" id="headerWhatsappBtn" target="_blank" rel="noopener">
+      <svg class="icon-wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.001 2C6.478 2 2 6.477 2 12c0 1.87.507 3.622 1.388 5.126L2 22l5.03-1.362A9.958 9.958 0 0 0 12.001 22C17.524 22 22 17.523 22 12S17.524 2 12.001 2zm0 18.077a8.05 8.05 0 0 1-4.11-1.13l-.294-.175-3.058.829.822-2.98-.192-.306a8.052 8.052 0 0 1-1.243-4.315c0-4.452 3.623-8.076 8.078-8.076 4.454 0 8.076 3.624 8.076 8.076 0 4.453-3.622 8.077-8.079 8.077z"/></svg>
+      <span>Escríbenos</span>
+    </a>
+    <button class="header__burger" id="burgerBtn" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<!-- Sin foto de stock: el "signature element" es la interfaz de WhatsApp,
+     porque comunica el producto exacto que se vende (agendar sin fricción)
+     y no depende de fotografía real que aún no existe. -->
+<section class="hero" id="inicio">
+  <div class="container hero__inner">
+    <div class="hero__content">
+      <p class="eyebrow" id="heroEyebrow">Consultorio dental privado · Panamá</p>
+      <h1 class="hero__title" id="heroTitle">Tu tratamiento, explicado con claridad.</h1>
+      <p class="hero__subtitle" id="heroSubtitle">
+        Diagnóstico honesto y un plan que entiendes antes de aceptarlo. Sin filas de espera, sin presión de venta.
+      </p>
+      <div class="hero__actions">
+        <a href="#" class="btn btn--whatsapp btn--large" id="heroWhatsappBtn" target="_blank" rel="noopener">
+          <svg class="icon-wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.001 2C6.478 2 2 6.477 2 12c0 1.87.507 3.622 1.388 5.126L2 22l5.03-1.362A9.958 9.958 0 0 0 12.001 22C17.524 22 22 17.523 22 12S17.524 2 12.001 2zm0 18.077a8.05 8.05 0 0 1-4.11-1.13l-.294-.175-3.058.829.822-2.98-.192-.306a8.052 8.052 0 0 1-1.243-4.315c0-4.452 3.623-8.076 8.078-8.076 4.454 0 8.076 3.624 8.076 8.076 0 4.453-3.622 8.077-8.079 8.077z"/></svg>
+          Escribir por WhatsApp
+        </a>
+        <a href="#servicios" class="btn btn--ghost btn--large">Ver tratamientos</a>
+      </div>
+      <p class="hero__microcopy">Respuesta directa del consultorio en minutos. Sin call center, sin compromiso.</p>
+    </div>
+
+    <div class="hero__media" aria-hidden="true">
+      <div class="hero__blob"></div>
+      <div class="wa-mock">
+        <div class="wa-mock__head">
+          <span class="wa-mock__avatar" id="waMockInitial">CD</span>
+          <div>
+            <strong id="waMockName">Clínica Dental</strong>
+            <small>en línea</small>
+          </div>
+        </div>
+        <div class="wa-mock__body">
+          <div class="wa-mock__bubble wa-mock__bubble--in">Hola, quisiera agendar una cita 🦷</div>
+          <div class="wa-mock__bubble wa-mock__bubble--out">¡Con gusto! Tenemos espacio mañana a las 3:00 pm, ¿le funciona?</div>
+          <div class="wa-mock__bubble wa-mock__bubble--in">Sí, perfecto</div>
+          <div class="wa-mock__bubble wa-mock__bubble--out">Cita confirmada ✓ Le esperamos.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST STRIP — reemplaza estadísticas inventadas por garantías reales de servicio ============ -->
+<section class="trust-strip reveal">
+  <div class="container trust-strip__inner" id="trustStripGrid"><!-- generado por JS desde CONFIG.trust --></div>
+</section>
+
+<div class="smile-divider" aria-hidden="true">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,0 C360,80 1080,80 1440,0 L1440,80 L0,80 Z"></path></svg>
+</div>
+
+<!-- ============ DOCTOR ============ -->
+<section class="doctor">
+  <div class="container doctor__inner">
+    <div class="doctor__media reveal">
+      <!-- Placeholder elegante mientras no hay foto real: iniciales sobre gradiente, nunca un cartel de "falta foto" -->
+      <div class="doctor__avatar" id="doctorAvatar"><span id="doctorInitials">DR</span></div>
+    </div>
+    <div class="doctor__content reveal">
+      <p class="eyebrow">Tu doctor de confianza</p>
+      <h2 id="doctorName">Dr. Nombre Apellido</h2>
+      <p class="doctor__role" id="doctorRole">Cirujano Dentista · Universidad de Panamá</p>
+      <p class="doctor__bio" id="doctorBio">
+        Casi una década ejerciendo en Panamá. Antes de cualquier tratamiento, explica cada paso en un lenguaje que se entiende — no solo términos clínicos.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICIOS ============ -->
+<section class="services" id="servicios">
+  <div class="container">
+    <p class="eyebrow center">Tratamientos</p>
+    <h2 class="section-title center">Un plan claro para cada necesidad</h2>
+    <div class="services__grid" id="servicesGrid"><!-- generado por JS --></div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIOS — movidos arriba: la prueba social debe llegar antes de pedir el contacto ============ -->
+<section class="testimonials" id="testimonios">
+  <div class="container">
+    <p class="eyebrow center">Pacientes reales</p>
+    <h2 class="section-title center">Lo que dicen quienes ya vinieron</h2>
+    <div class="testimonials__grid" id="testimonialsGrid"><!-- generado por JS --></div>
+  </div>
+</section>
+
+<!-- ============ CTA DE REFUERZO — el momento de mayor confianza no puede quedar sin una salida ============ -->
+<section class="mid-cta reveal">
+  <div class="container mid-cta__inner">
+    <h3 id="midCtaText">¿Listo para tu cita? Escríbenos y te respondemos hoy mismo.</h3>
+    <a href="#" class="btn btn--whatsapp btn--large" id="midCtaWhatsappBtn" target="_blank" rel="noopener">
+      <svg class="icon-wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.001 2C6.478 2 2 6.477 2 12c0 1.87.507 3.622 1.388 5.126L2 22l5.03-1.362A9.958 9.958 0 0 0 12.001 22C17.524 22 22 17.523 22 12S17.524 2 12.001 2zm0 18.077a8.05 8.05 0 0 1-4.11-1.13l-.294-.175-3.058.829.822-2.98-.192-.306a8.052 8.052 0 0 1-1.243-4.315c0-4.452 3.623-8.076 8.078-8.076 4.454 0 8.076 3.624 8.076 8.076 0 4.453-3.622 8.077-8.079 8.077z"/></svg>
+      Escribir por WhatsApp
+    </a>
+  </div>
+</section>
+
+<!-- ============ PASOS — reubicado justo antes de FAQ/contacto: reduce fricción en el momento de actuar ============ -->
+<section class="steps">
+  <div class="container">
+    <p class="eyebrow center">Así de simple</p>
+    <h2 class="section-title center">De mensaje a cita, en 3 pasos</h2>
+    <div class="steps__grid">
+      <div class="step reveal"><span class="step__num">01</span><h3>Escríbenos</h3><p>Un mensaje por WhatsApp, cuéntanos qué necesitas.</p></div>
+      <div class="step reveal"><span class="step__num">02</span><h3>Confirmamos</h3><p>Te damos fecha y hora según tu disponibilidad real.</p></div>
+      <div class="step reveal"><span class="step__num">03</span><h3>Te atendemos</h3><p>Sin sorpresas en la sala de espera, ni en la cuenta.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq" id="preguntas">
+  <div class="container">
+    <p class="eyebrow center">Antes de escribirnos</p>
+    <h2 class="section-title center">Preguntas frecuentes</h2>
+    <div class="faq__list" id="faqList"><!-- generado por JS --></div>
+  </div>
+</section>
+
+<!-- ============ HORARIOS + MAPA + CONTACTO ============ -->
+<section class="contact" id="contacto">
+  <div class="container contact__inner">
+    <div class="contact__info reveal">
+      <p class="eyebrow">Visítanos</p>
+      <h2 class="section-title">Horarios y ubicación</h2>
+      <ul class="hours-list" id="hoursList"><!-- generado por JS --></ul>
+      <div class="contact__data">
+        <p><strong>Dirección:</strong> <span id="addressText">Vía Principal, Ciudad de Panamá</span></p>
+        <p><strong>Teléfono:</strong> <a id="phoneLink" href="tel:+50700000000">+507 0000-0000</a></p>
+      </div>
+      <div class="map-wrapper">
+        <iframe id="mapEmbed" src="" width="100%" height="280" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Ubicación de la clínica"></iframe>
+      </div>
+    </div>
+
+    <div class="contact__form-wrapper reveal">
+      <h3>Escríbenos y te respondemos por WhatsApp</h3>
+      <form id="contactForm" class="contact-form">
+        <div class="field">
+          <label for="fname">Nombre</label>
+          <input type="text" id="fname" name="fname" required placeholder="Tu nombre">
+        </div>
+        <div class="field">
+          <label for="fphone">Teléfono</label>
+          <input type="tel" id="fphone" name="fphone" required placeholder="6000-0000">
+        </div>
+        <div class="field">
+          <label for="fmsg">¿En qué podemos ayudarte?</label>
+          <textarea id="fmsg" name="fmsg" rows="3" placeholder="Quisiera agendar una cita de..."></textarea>
+        </div>
+        <button type="submit" class="btn btn--whatsapp btn--full">
+          <svg class="icon-wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.001 2C6.478 2 2 6.477 2 12c0 1.87.507 3.622 1.388 5.126L2 22l5.03-1.362A9.958 9.958 0 0 0 12.001 22C17.524 22 22 17.523 22 12S17.524 2 12.001 2zm0 18.077a8.05 8.05 0 0 1-4.11-1.13l-.294-.175-3.058.829.822-2.98-.192-.306a8.052 8.052 0 0 1-1.243-4.315c0-4.452 3.623-8.076 8.078-8.076 4.454 0 8.076 3.624 8.076 8.076 0 4.453-3.622 8.077-8.079 8.077z"/></svg>
+          Enviar por WhatsApp
+        </button>
+        <p class="form-note">No usamos correo ni servidores: tu mensaje se abre directo en WhatsApp.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <span id="clinicNameFooter">Clínica Dental</span>
+      <p id="footerTagline">Sonrisas de confianza en Panamá.</p>
+    </div>
+    <div class="footer__links">
+      <a href="#servicios">Tratamientos</a>
+      <a href="#testimonios">Pacientes</a>
+      <a href="#preguntas">Preguntas</a>
+      <a href="#contacto">Ubicación</a>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <p>&copy; <span id="footerYear"></span> <span id="clinicNameFooterBottom">Clínica Dental</span>. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<!-- ============ BOTÓN FLOTANTE WHATSAPP ============ -->
+<a href="#" class="floating-wa" id="floatingWa" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.001 2C6.478 2 2 6.477 2 12c0 1.87.507 3.622 1.388 5.126L2 22l5.03-1.362A9.958 9.958 0 0 0 12.001 22C17.524 22 22 17.523 22 12S17.524 2 12.001 2zm0 18.077a8.05 8.05 0 0 1-4.11-1.13l-.294-.175-3.058.829.822-2.98-.192-.306a8.052 8.052 0 0 1-1.243-4.315c0-4.452 3.623-8.076 8.078-8.076 4.454 0 8.076 3.624 8.076 8.076 0 4.453-3.622 8.077-8.079 8.077z"/></svg>
+</a>
+
+<script>
+/* ==========================================================================
+   CONFIG.JS — ÚNICO ARCHIVO QUE DEBES EDITAR PARA CADA NUEVO CLIENTE
+
+   IMPORTANTE: los textos de ejemplo abajo están escritos para VENDER,
+   pero son EJEMPLOS. Antes de publicar con un cliente real:
+   - Reemplaza nombre, bio y credenciales con datos reales confirmados.
+   - No publiques cifras (años de experiencia, cantidad de pacientes,
+     rating) que el cliente no te confirme por escrito. Por defecto
+     esta plantilla NO incluye estadísticas inventadas — solo garantías
+     de servicio (bioseguridad, tecnología, planes de pago), que son
+     seguras de usar para cualquier clínica que opere legalmente.
+   ========================================================================== */
+
+const CONFIG = {
+  // ---- Identidad ----
+  clinicName: "Clínica Dental Sonrisa",
+  tagline: "Sonrisas de confianza en Panamá.",
+  logo: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE2IDRjLTMgMC00LjUgMS42LTYuNSAxLjZDNyA1LjYgNSA3LjQgNSAxMC44YzAgMyAxLjMgNS42IDEuOCA4LjQuNSAyLjggMSA4LjggMy4yIDguOCAyIDAgMi01IDIuNy03LjYuNC0xLjYgMS4yLTIuNiAzLjMtMi42czIuOSAxIDMuMyAyLjZjLjcgMi42LjcgNy42IDIuNyA3LjYgMi4yIDAgMi43LTYgMy4yLTguOC41LTIuOCAxLjgtNS40IDEuOC04LjQgMC0zLjQtMi01LjItNC41LTUuMkMyMC41IDUuNiAxOSA0IDE2IDR6IiBmaWxsPSIjQzlBNjZCIi8+Cjwvc3ZnPgo=",
+
+  // ---- Colores (paleta genérica de clínica dental: azul médico + blanco) ----
+  colors: {
+    primary: "#0E6BA8",      // azul médico — confianza, limpieza, estándar del rubro
+    primaryLight: "#2E8FCE",
+    accent: "#3FC1C9",       // turquesa suave — acento fresco/clínico
+    accentInk: "#0E7A80",    // versión oscura del acento, para texto sobre fondo claro (contraste AA)
+    bg: "#FFFFFF",
+    bgAlt: "#F0F6FA",
+    text: "#1B2733",
+    textSoft: "#5A6B7A"
+  },
+
+  // ---- Contacto ----
+  whatsappNumber: "50760000000",
+  phoneDisplay: "+507 6000-0000",
+  address: "Vía Principal, Ciudad de Panamá",
+  googleMapsEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d239!2d-79.5199!3d8.9824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOMKwNTgnNTYuNiJOIDc5wrAzMScxMS42Ilc!5e0!3m2!1ses!2spa!4v1600000000000",
+
+  // ---- Hero ----
+  hero: {
+    eyebrow: "Consultorio dental privado · Panamá",
+    title: "Tu tratamiento, explicado con claridad.",
+    subtitle: "Diagnóstico honesto y un plan que entiendes antes de aceptarlo. Sin filas de espera, sin presión de venta.",
+    microcopy: "Respuesta directa del consultorio en minutos. Sin call center, sin compromiso."
+  },
+
+  // ---- Franja de confianza (garantías de servicio, no estadísticas) ----
+  // Cambia estos textos solo si aplican de verdad al cliente.
+  trust: [
+    { icon: "shield", text: "Bioseguridad certificada" },
+    { icon: "tool", text: "Tecnología moderna" },
+    { icon: "wallet", text: "Planes de pago flexibles" },
+    { icon: "chat", text: "Respuesta rápida por WhatsApp" }
+  ],
+
+  // ---- Doctor ----
+  doctor: {
+    name: "Dr. Nombre Apellido",
+    initials: "DR", // se muestran en el placeholder mientras no haya foto real
+    role: "Cirujano Dentista · Universidad de Panamá",
+    bio: "Casi una década ejerciendo en Panamá. Antes de cualquier tratamiento, explica cada paso en un lenguaje que se entiende — no solo términos clínicos.",
+    image: null // si tienes foto real: "assets/doctor.jpg" — reemplaza el placeholder automáticamente
+  },
+
+  // ---- Servicios (icon: shield | tool | wallet | chat | tooth | sparkle | braces | drop | implant | alert) ----
+  services: [
+    { icon: "tooth", title: "Limpieza dental", desc: "Elimina placa y sarro antes de que se conviertan en un problema mayor." },
+    { icon: "sparkle", title: "Blanqueamiento", desc: "Un tono más claro, de forma segura y supervisada por un profesional." },
+    { icon: "braces", title: "Ortodoncia", desc: "Brackets tradicionales o alineadores discretos, según tu caso." },
+    { icon: "drop", title: "Endodoncia", desc: "Tratamiento de conducto con anestesia adecuada: el objetivo es que no sientas dolor." },
+    { icon: "implant", title: "Implantes dentales", desc: "Reemplaza una pieza perdida con un resultado que se ve y funciona natural." },
+    { icon: "alert", title: "Urgencias dentales", desc: "Dolor agudo o un diente roto no espera. Escríbenos y te damos prioridad." }
+  ],
+
+  // ---- Testimonios (reemplazar por reseñas reales del cliente antes de publicar) ----
+  testimonials: [
+    { name: "María G.", text: "Llegué con miedo porque no iba al dentista hace años. El doctor me explicó cada paso antes de tocarme. Ya perdí el miedo.", stars: 5 },
+    { name: "Carlos R.", text: "Pedí cita por WhatsApp un domingo en la noche y el lunes ya tenía hora confirmada. Así de simple.", stars: 5 },
+    { name: "Ana P.", text: "Mi hija de 6 años salió sonriendo del consultorio. Eso ya dice mucho.", stars: 5 }
+  ],
+
+  // ---- Texto del CTA de refuerzo (tras los testimonios) ----
+  midCtaText: "¿Listo para tu cita? Escríbenos y te respondemos hoy mismo.",
+
+  // ---- FAQ ----
+  faq: [
+    { q: "¿Aceptan seguros dentales?", a: "Sí, trabajamos con la mayoría de las aseguradoras en Panamá. Escríbenos para confirmar la tuya." },
+    { q: "¿Atienden emergencias?", a: "Sí, contamos con espacio para urgencias dentales el mismo día, sujeto a disponibilidad." },
+    { q: "¿Tienen planes de pago?", a: "Sí, ofrecemos financiamiento en cuotas para tratamientos de mayor costo." },
+    { q: "¿Atienden niños?", a: "Sí, contamos con atención pediátrica en un ambiente cómodo y amigable." }
+  ],
+
+  // ---- Horarios ----
+  hours: [
+    { day: "Lunes a Viernes", time: "8:00 am – 6:00 pm" },
+    { day: "Sábados", time: "8:00 am – 1:00 pm" },
+    { day: "Domingos", time: "Cerrado" }
+  ],
+
+  whatsappDefaultMessage: "Hola, quisiera agendar una cita 🦷"
+};
+
+</script>
+<script>
+/* ==========================================================================
+   SCRIPT.JS — No necesitas tocar este archivo entre clientes.
+   ========================================================================== */
+
+(function () {
+  "use strict";
+
+  // Set de íconos de línea, minimalista y consistente (nada de emojis)
+  const ICONS = {
+    shield: '<svg class="icon-line" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/></svg>',
+    tool: '<svg class="icon-line" viewBox="0 0 24 24"><path d="M14 7a3 3 0 1 0-4.24 4.24L4 17v3h3l5.76-5.76A3 3 0 0 0 17 10l-3-3z"/></svg>',
+    wallet: '<svg class="icon-line" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h13a1 1 0 0 1 1 1v2M3 7v10a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1H8a2 2 0 0 1 0-4h11"/><circle cx="17" cy="13" r="1"/></svg>',
+    chat: '<svg class="icon-line" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H6l-3 3v-3.6A8.5 8.5 0 1 1 21 11.5z"/></svg>',
+    tooth: '<svg class="icon-line" viewBox="0 0 24 24"><path d="M12 3C9 3 7 5 6 5c-1.5 0-2.5 1.8-2.5 4.2 0 2.2.7 3.8 1.2 5.7.5 2 .9 6.1 2.7 6.1 1.6 0 1.6-4 2.3-5.7.3-.8.9-1.3 2.3-1.3s2 .5 2.3 1.3c.7 1.7.7 5.7 2.3 5.7 1.8 0 2.2-4.1 2.7-6.1.5-1.9 1.2-3.5 1.2-5.7C20.5 6.8 19.5 5 18 5c-1 0-3-2-6-2z"/></svg>',
+    sparkle: '<svg class="icon-line" viewBox="0 0 24 24"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/><path d="M19 15l.7 2.1 2.1.7-2.1.7-.7 2.1-.7-2.1-2.1-.7 2.1-.7L19 15z"/></svg>',
+    braces: '<svg class="icon-line" viewBox="0 0 24 24"><path d="M4 8h16M4 8c0 6 2 10 8 10s8-4 8-10"/><circle cx="8" cy="8" r="1"/><circle cx="12" cy="8" r="1"/><circle cx="16" cy="8" r="1"/></svg>',
+    drop: '<svg class="icon-line" viewBox="0 0 24 24"><path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/></svg>',
+    implant: '<svg class="icon-line" viewBox="0 0 24 24"><path d="M12 3l5 3v3l-5 12-5-12V6l5-3z"/><path d="M8.5 9h7M9 12h6M9.5 15h5"/></svg>',
+    alert: '<svg class="icon-line" viewBox="0 0 24 24"><path d="M12 4l9 16H3L12 4z"/><path d="M12 10v4"/><circle cx="12" cy="17" r="0.6" fill="currentColor" stroke="none"/></svg>'
+  };
+
+  const waLink = (customMsg) => {
+    const msg = encodeURIComponent(customMsg || CONFIG.whatsappDefaultMessage);
+    return `https://wa.me/${CONFIG.whatsappNumber}?text=${msg}`;
+  };
+
+  function applyColors() {
+    const r = document.documentElement.style;
+    const c = CONFIG.colors;
+    r.setProperty("--color-primary", c.primary);
+    r.setProperty("--color-primary-light", c.primaryLight);
+    r.setProperty("--color-accent", c.accent);
+    r.setProperty("--color-accent-ink", c.accentInk);
+    r.setProperty("--color-bg", c.bg);
+    r.setProperty("--color-bg-alt", c.bgAlt);
+    r.setProperty("--color-text", c.text);
+    r.setProperty("--color-text-soft", c.textSoft);
+  }
+
+  function applyIdentity() {
+    const fullTitle = `${CONFIG.clinicName} — ${CONFIG.tagline}`;
+    document.title = fullTitle;
+    document.getElementById("metaTitle").textContent = fullTitle;
+    document.getElementById("metaDescription").setAttribute("content", CONFIG.hero.subtitle);
+    document.getElementById("ogTitle").setAttribute("content", fullTitle);
+    document.getElementById("ogDescription").setAttribute("content", CONFIG.hero.subtitle);
+
+    document.getElementById("clinicNameHeader").textContent = CONFIG.clinicName;
+    document.getElementById("clinicNameFooter").textContent = CONFIG.clinicName;
+    document.getElementById("clinicNameFooterBottom").textContent = CONFIG.clinicName;
+    document.getElementById("footerTagline").textContent = CONFIG.tagline;
+    document.getElementById("footerYear").textContent = new Date().getFullYear();
+    document.getElementById("logoImg").src = CONFIG.logo;
+
+    document.getElementById("headerWhatsappBtn").href = waLink();
+    document.getElementById("heroWhatsappBtn").href = waLink();
+    document.getElementById("midCtaWhatsappBtn").href = waLink();
+    document.getElementById("floatingWa").href = waLink();
+
+    document.getElementById("phoneLink").textContent = CONFIG.phoneDisplay;
+    document.getElementById("phoneLink").href = `tel:+${CONFIG.whatsappNumber}`;
+    document.getElementById("addressText").textContent = CONFIG.address;
+    document.getElementById("mapEmbed").src = CONFIG.googleMapsEmbed;
+  }
+
+  function renderHero() {
+    document.getElementById("heroEyebrow").textContent = CONFIG.hero.eyebrow;
+    document.getElementById("heroTitle").textContent = CONFIG.hero.title;
+    document.getElementById("heroSubtitle").textContent = CONFIG.hero.subtitle;
+    document.querySelector(".hero__microcopy").textContent = CONFIG.hero.microcopy;
+
+    // Mockup de WhatsApp: usa nombre real e iniciales del cliente
+    document.getElementById("waMockName").textContent = CONFIG.clinicName;
+    const initials = CONFIG.clinicName.split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase();
+    document.getElementById("waMockInitial").textContent = initials;
+  }
+
+  function renderTrustStrip() {
+    document.getElementById("trustStripGrid").innerHTML = CONFIG.trust.map((t, i) => `
+      <div class="trust-item-strip reveal" style="transition-delay:${i * 70}ms">${ICONS[t.icon] || ""}<span>${t.text}</span></div>
+    `).join("");
+  }
+
+  function renderDoctor() {
+    document.getElementById("doctorName").textContent = CONFIG.doctor.name;
+    document.getElementById("doctorRole").textContent = CONFIG.doctor.role;
+    document.getElementById("doctorBio").textContent = CONFIG.doctor.bio;
+
+    const avatarEl = document.getElementById("doctorAvatar");
+    if (CONFIG.doctor.image) {
+      avatarEl.innerHTML = `<img src="${CONFIG.doctor.image}" alt="${CONFIG.doctor.name}, ${CONFIG.doctor.role}" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">`;
+    } else {
+      document.getElementById("doctorInitials").textContent = CONFIG.doctor.initials;
+    }
+  }
+
+  function renderServices() {
+    document.getElementById("servicesGrid").innerHTML = CONFIG.services.map((s, i) => `
+      <div class="service-card reveal" style="transition-delay:${(i % 3) * 90}ms">
+        <div class="service-card__icon">${ICONS[s.icon] || ""}</div>
+        <h3>${s.title}</h3>
+        <p>${s.desc}</p>
+      </div>
+    `).join("");
+  }
+
+  function renderTestimonials() {
+    document.getElementById("testimonialsGrid").innerHTML = CONFIG.testimonials.map((t, i) => `
+      <div class="testimonial-card reveal" style="transition-delay:${i * 100}ms">
+        <div class="testimonial-card__stars">${"★".repeat(t.stars)}${"☆".repeat(5 - t.stars)}</div>
+        <p>"${t.text}"</p>
+        <strong>${t.name}</strong>
+      </div>
+    `).join("");
+  }
+
+  function renderMidCta() {
+    document.getElementById("midCtaText").textContent = CONFIG.midCtaText;
+  }
+
+  function renderFAQ() {
+    const list = document.getElementById("faqList");
+    list.innerHTML = CONFIG.faq.map((item, i) => `
+      <div class="faq-item reveal" data-index="${i}" style="transition-delay:${i * 60}ms">
+        <button class="faq-item__q" type="button" aria-expanded="false"><span>${item.q}</span></button>
+        <div class="faq-item__a"><p>${item.a}</p></div>
+      </div>
+    `).join("");
+
+    list.querySelectorAll(".faq-item__q").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const item = btn.closest(".faq-item");
+        const answer = item.querySelector(".faq-item__a");
+        const isOpen = item.classList.contains("is-open");
+
+        list.querySelectorAll(".faq-item").forEach(el => {
+          el.classList.remove("is-open");
+          el.querySelector(".faq-item__a").style.maxHeight = null;
+          el.querySelector(".faq-item__q").setAttribute("aria-expanded", "false");
+        });
+
+        if (!isOpen) {
+          item.classList.add("is-open");
+          answer.style.maxHeight = answer.scrollHeight + "px";
+          btn.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
+  }
+
+  function renderHours() {
+    document.getElementById("hoursList").innerHTML = CONFIG.hours.map(h => `
+      <li><span>${h.day}</span><span>${h.time}</span></li>
+    `).join("");
+  }
+
+  function setupForm() {
+    const form = document.getElementById("contactForm");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("fname").value.trim();
+      const phone = document.getElementById("fphone").value.trim();
+      const msg = document.getElementById("fmsg").value.trim();
+      const text = `Hola, soy ${name} (tel: ${phone}). ${msg || "Quisiera agendar una cita."}`;
+      window.open(waLink(text), "_blank");
+    });
+  }
+
+  function setupMobileMenu() {
+    const burger = document.getElementById("burgerBtn");
+    const nav = document.getElementById("headerNav");
+    burger.addEventListener("click", () => {
+      const isOpen = nav.style.display === "flex";
+      nav.style.display = isOpen ? "none" : "flex";
+      Object.assign(nav.style, {
+        flexDirection: "column", position: "absolute", top: "100%", left: "0", right: "0",
+        background: "var(--color-bg)", padding: "16px 24px", gap: "14px", boxShadow: "var(--shadow-soft)"
+      });
+    });
+    nav.querySelectorAll("a").forEach(a => a.addEventListener("click", () => { nav.style.display = "none"; }));
+  }
+
+  // Un único efecto de aparición al hacer scroll, aplicado de forma consistente
+  function setupParallax() {
+    const blob = document.querySelector(".hero__blob");
+    if (!blob) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let ticking = false;
+    window.addEventListener("scroll", () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = Math.min(window.scrollY, 600) * 0.12;
+        blob.style.transform = `translateY(${y}px)`;
+        ticking = false;
+      });
+    }, { passive: true });
+  }
+
+  function setupScrollReveal() {
+    const els = document.querySelectorAll(".reveal");
+    if (!("IntersectionObserver" in window)) {
+      els.forEach(el => el.classList.add("is-visible"));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    els.forEach(el => io.observe(el));
+  }
+
+  // SEO técnico: schema.org Dentist, generado desde CONFIG (sin datos inventados)
+  function injectSchema() {
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "Dentist",
+      "name": CONFIG.clinicName,
+      "telephone": `+${CONFIG.whatsappNumber}`,
+      "address": CONFIG.address,
+      "openingHours": CONFIG.hours.map(h => `${h.day}: ${h.time}`)
+    };
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.textContent = JSON.stringify(schema);
+    document.head.appendChild(script);
+  }
+
+  function init() {
+    applyColors();
+    applyIdentity();
+    renderHero();
+    renderTrustStrip();
+    renderDoctor();
+    renderServices();
+    renderTestimonials();
+    renderMidCta();
+    renderFAQ();
+    renderHours();
+    setupForm();
+    setupMobileMenu();
+    setupParallax();
+    setupScrollReveal();
+    injectSchema();
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+})();
+
+</script>
+</body>
+</html>
